@@ -19,7 +19,7 @@ relevantTechniques:
 query: |
     AWSCloudTrail
     | where  EventName == "ModifyDBInstance" and isempty(ErrorCode) and isempty(ErrorMessage)
-    | where tostring(parse_json(RequestParameters).publiclyAccessible) == "true"
+    | where tostring(parse_json(ResponseElements).publiclyAccessible) == "true"
     | extend UserIdentityUserName = iff(isnotempty(UserIdentityUserName), UserIdentityUserName, tostring(split(UserIdentityArn,'/')[-1]))
     | extend timestamp = TimeGenerated, IPCustomEntity = SourceIpAddress, AccountCustomEntity = UserIdentityUserName
 entityMappings:
